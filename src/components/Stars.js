@@ -18,8 +18,6 @@ const Stars = ({stars, reviews}) => {
     );
   })
   
-  
-  
   return (
     <Wrapper>
       <div className="stars">
