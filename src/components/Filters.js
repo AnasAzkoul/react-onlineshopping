@@ -5,7 +5,80 @@ import { getUniqueValues, formatPrice } from '../utils/helpers'
 import { FaCheck } from 'react-icons/fa'
 
 const Filters = () => {
-  return <h4>filters</h4>
+  const {
+    filters: {
+      text,
+      category,
+      company,
+      color,
+      min_price,
+      max_price,
+      price,
+      shipping
+    },
+    updateFilters,
+    clearFilters,
+    all_products
+  } = useFilterContext(); 
+  
+  const categories = getUniqueValues(all_products, 'category'); 
+  const companies = getUniqueValues(all_products, 'company'); 
+  const colors = getUniqueValues(all_products, 'colors'); 
+  
+  return (
+    <Wrapper>
+      <div className="content">
+        <form onSubmit={(e) => e.preventDefault()}>
+          {/* search input */}
+          <div className="form-control">
+            <input
+              type="text"
+              name='text'
+              placeholder='search'
+              className='search-input'
+              value={text}
+              onChange={updateFilters}
+            />
+          </div>
+          {/* end of search input */}
+          {/* Categories */}
+          <div className="form-control">
+            <h5>categories</h5>
+            <div>
+              {categories.map((c, index) => {
+                return <button
+                  key={index}
+                  onClick={updateFilters}
+                  name='category'
+                  type='button'
+                  className={`${category === c.toLowerCase() && 'active'}`}
+                >
+                  {c}
+                </button>
+              })}
+            </div>
+          </div>
+          {/* End of Categories */}
+          {/* companies */}
+          <div className="form-control">
+            <h5>Company</h5>
+            <select
+              name="company"
+              id="company"
+              value={company}
+              className='company'
+              onChange={updateFilters}
+            >
+              {companies.map((comp, index) => {
+                return <option value={comp} key={index}>{comp}</option>
+              })}
+            </select>
+          </div>
+          {/* End of Companies */}
+        </form>
+      </div>
+    </Wrapper>
+  )
 }
 
 const Wrapper = styled.section`

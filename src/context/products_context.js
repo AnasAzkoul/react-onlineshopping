@@ -11,7 +11,10 @@ import {
   GET_SINGLE_PRODUCT_BEGIN,
   GET_SINGLE_PRODUCT_SUCCESS,
   GET_SINGLE_PRODUCT_ERROR,
-} from '../actions'
+  LOAD_PRODUCTS,
+} from '../actions';
+
+
 
 const initialState = {
   isSidebarOpen: false, 
@@ -23,6 +26,8 @@ const initialState = {
   single_product_error: false, 
   single_product: {}, 
 }
+
+
 
 const ProductsContext = React.createContext()
 
@@ -69,7 +74,9 @@ export const ProductsProvider = ({children}) => {
       openSidebar,
       closeSidebar, 
       fetchSingleProduct, 
-    }
+  }
+  
+  console.log(state.products);
   
   return (
     <ProductsContext.Provider value={value}>
