@@ -27,12 +27,12 @@ const Filters = () => {
   
   return (
     <Wrapper>
-      <div className="content">
+      <div className='content'>
         <form onSubmit={(e) => e.preventDefault()}>
           {/* search input */}
-          <div className="form-control">
+          <div className='form-control'>
             <input
-              type="text"
+              type='text'
               name='text'
               placeholder='search'
               className='search-input'
@@ -42,43 +42,117 @@ const Filters = () => {
           </div>
           {/* end of search input */}
           {/* Categories */}
-          <div className="form-control">
+          <div className='form-control'>
             <h5>categories</h5>
             <div>
               {categories.map((c, index) => {
-                return <button
-                  key={index}
-                  onClick={updateFilters}
-                  name='category'
-                  type='button'
-                  className={`${category === c.toLowerCase() && 'active'}`}
-                >
-                  {c}
-                </button>
+                return (
+                  <button
+                    key={index}
+                    onClick={updateFilters}
+                    name='category'
+                    type='button'
+                    className={`${category === c.toLowerCase() && 'active'}
+                  `}
+                  >
+                    {c}
+                  </button>
+                );
               })}
             </div>
           </div>
           {/* End of Categories */}
           {/* companies */}
-          <div className="form-control">
+          <div className='form-control'>
             <h5>Company</h5>
             <select
-              name="company"
-              id="company"
+              name='company'
+              id='company'
               value={company}
               className='company'
               onChange={updateFilters}
             >
               {companies.map((comp, index) => {
-                return <option value={comp} key={index}>{comp}</option>
+                return (
+                  <option value={comp} key={index}>
+                    {comp}
+                  </option>
+                );
               })}
             </select>
           </div>
           {/* End of Companies */}
+          {/* Colors */}
+          <div className='form-control'>
+            <h5>Colors</h5>
+            <div className='colors'>
+              {colors.map((c, index) => {
+                if (c === 'all') {
+                  return (
+                    <button
+                      key={index}
+                      name='color'
+                      onClick={updateFilters}
+                      data-color='all'
+                      className={`all-btn ${color === 'all' && 'active'}`}
+                    >
+                      {c}
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    key={index}
+                    name='color'
+                    style={{ backgroundColor: c }}
+                    className={`color-btn ${color === c && 'active'}`}
+                    data-color={c}
+                    onClick={updateFilters}
+                  >
+                    {color === c && <FaCheck />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          {/* End of Colors */}
+          {/* price */}
+          <div className='form-control'>
+            <h5>price</h5>
+            <p className='price'>{formatPrice(price)}</p>
+            <input
+              type='range'
+              name='price'
+              min={min_price}
+              max={max_price}
+              value={price}
+              onChange={updateFilters}
+            />
+          </div>
+          {/* End of Price */}
+          {/* free shipping */}
+          <div className="form-control shipping">
+            <label htmlFor="shipping">free shipping</label>
+            <input
+              type="checkbox"
+              name='shipping'
+              id='shipping'
+              onChange={updateFilters}
+              checked={shipping}
+            />
+          </div>
+          {/* End of Free Shipping */}
         </form>
+        <button
+          type='button'
+          className='clear-btn'
+          onClick={clearFilters}
+        >
+          clear filters
+        </button>
       </div>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.section`
