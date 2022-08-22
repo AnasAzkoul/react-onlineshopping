@@ -7,7 +7,12 @@ import {
   UPDATE_FILTERS,
   FILTER_PRODUCTS,
   CLEAR_FILTERS,
-} from '../actions'
+} from '../actions'; 
+
+import {
+  handleFilterProducts,
+  handleSortProducts,
+} from '../context/filter_context'; 
 
 const filter_reducer = (state, action) => {
   const {type, payload} = action; 
@@ -44,25 +49,10 @@ const filter_reducer = (state, action) => {
       }
     
     case SORT_PRODUCTS:
-      const {filtered_products, sort} = state; 
-      let tempProducts = [...filtered_products]
-      if (sort === 'price-lowest') {
-        tempProducts = tempProducts.sort((a, b) => a.price - b.price)
-      }
-      if (sort === 'price-highest') {
-        tempProducts = tempProducts.sort((a, b) => b.price - a.price);
-      }
-      if (sort === 'name-a') {
-        tempProducts = tempProducts.sort((a, b) =>
-          a.name.localeCompare(b.name));
-      }
-      if (sort === 'name-z') {
-        tempProducts = tempProducts.sort((a, b) => 
-        b.name.localeCompare(a.name));
-      }
+      const sortedTempProducts = handleSortProducts(state); 
       return {
         ...state, 
-        filtered_products: tempProducts
+        filtered_products: sortedTempProducts
       }
     
     case UPDATE_FILTERS: 
@@ -72,36 +62,11 @@ const filter_reducer = (state, action) => {
       }
     
     case FILTER_PRODUCTS: 
-      const {all_products} = state; 
-      const {text, category, company, price, shipping, color} = state.filters
-      let newTempProducts = [...all_products]; 
-      if (text) {
-        newTempProducts = newTempProducts.filter(product =>
-          product.name.toLowerCase().includes(text))
-      }
-      if (category !== 'all') {
-        newTempProducts = newTempProducts.filter(product => 
-          product.category.toLowerCase() === category)
-      }
-      if (company !== 'all') {
-        newTempProducts = newTempProducts.filter(product => 
-          product.company.toLowerCase() === company)
-      }
-      if (color !== 'all') {
-        newTempProducts = newTempProducts.filter(product => 
-          product.colors.includes(color))
-      }
-      // filtering price
-      newTempProducts = newTempProducts.filter(product =>
-        product.price <= price)
-      if (shipping) {
-        newTempProducts = newTempProducts.filter(product => 
-          product.shipping === true)
-      }
+      const filteredTempProducts = handleFilterProducts(state); 
       
       return {
         ...state,
-        filtered_products: newTempProducts,   
+        filtered_products: filteredTempProducts,   
       }
     
     case CLEAR_FILTERS: 

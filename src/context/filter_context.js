@@ -10,7 +10,74 @@ import {
   FILTER_PRODUCTS,
   CLEAR_FILTERS,
 } from '../actions'
-import { useProductsContext } from './products_context'
+import {useProductsContext} from './products_context'; 
+
+
+// functions to be executed in the filter reducer 
+// /////////////////////////////////////////////////////////////
+
+// filtering products in the reducer function 
+export const handleFilterProducts = state => {
+  const { all_products } = state;
+  const { text, category, company, price, shipping, color } =
+    state.filters;
+  let tempProducts = [...all_products];
+  if (text) {
+    tempProducts = tempProducts.filter((product) =>
+      product.name.toLowerCase().includes(text)
+    );
+  }
+  if (category !== 'all') {
+    tempProducts = tempProducts.filter(
+      (product) => product.category.toLowerCase() === category
+    );
+  }
+  if (company !== 'all') {
+    tempProducts = tempProducts.filter(
+      (product) => product.company.toLowerCase() === company
+    );
+  }
+  if (color !== 'all') {
+    tempProducts = tempProducts.filter((product) =>
+      product.colors.includes(color)
+    );
+  }
+  // filtering price
+  tempProducts = tempProducts.filter(
+    (product) => product.price <= price
+  );
+  if (shipping) {
+    tempProducts = tempProducts.filter(
+      (product) => product.shipping === true
+    );
+  }
+  return tempProducts; 
+}
+// ####################################################################
+// sorting products in the reducer function / exported to filter_reducer 
+export const handleSortProducts = state => {
+  const { filtered_products, sort } = state;
+  let tempProducts = [...filtered_products];
+  if (sort === 'price-lowest') {
+    tempProducts = tempProducts.sort((a, b) => a.price - b.price);
+  }
+  if (sort === 'price-highest') {
+    tempProducts = tempProducts.sort((a, b) => b.price - a.price);
+  }
+  if (sort === 'name-a') {
+    tempProducts = tempProducts.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+  }
+  if (sort === 'name-z') {
+    tempProducts = tempProducts.sort((a, b) =>
+      b.name.localeCompare(a.name)
+    );
+  }
+  return tempProducts; 
+}
+
+// /////////////////////////////////////////////////////////////
 
 const initialState = {
   filtered_products: [],
