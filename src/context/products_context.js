@@ -76,7 +76,7 @@ export const ProductsProvider = ({children}) => {
       fetchSingleProduct, 
   }
   
-  console.log(state.products);
+  
   
   return (
     <ProductsContext.Provider value={value}>

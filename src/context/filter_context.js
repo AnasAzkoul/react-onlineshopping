@@ -149,7 +149,7 @@ export const FilterProvider = ({children}) => {
     dispatch({type: CLEAR_FILTERS})
   }; 
   
-  console.log(state.filters);
+  
 
   
   const value = {
