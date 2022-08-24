@@ -31,8 +31,6 @@ const CartContext = React.createContext()
 export const CartProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState); 
   
-
-  
   // add product to cart 
   const addToCart = (id, amount, color, product) => {
     let tempItem = state.cart.find(item => item.id === id + color);
@@ -100,7 +98,8 @@ export const CartProvider = ({children}) => {
   }
   // total amount and total items
   const calcTotals = () => {
-    const {totalItems, totalAmount} = state.cart.reduce((total, cartItem) => {
+    const {totalItems, totalAmount} = state.cart.reduce((total, cartItem
+    ) => {
       const {amount, price} = cartItem; 
       total.totalItems += amount; 
       total.totalAmount += price * amount; 
