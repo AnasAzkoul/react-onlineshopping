@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { useFilterContext } from '../context/filter_context'
 import { BsFillGridFill, BsList } from 'react-icons/bs'
 import styled from 'styled-components'
-import {SORT_PRODUCTS} from '../actions'; 
+
 
 
 const Sort = () => {
