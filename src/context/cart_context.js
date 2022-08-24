@@ -68,7 +68,7 @@ export const CartProvider = ({children}) => {
     const tempCart = state.cart.filter(cartItem => cartItem.id !== id); 
     dispatch({type: REMOVE_CART_ITEM, payload: tempCart})
   }
-  // increase / decrease the amount fo a product in the cart 
+  // increase / decrease the amount for a product in the cart 
   const toggleAmount = (id, value) => {
     let tempCart = state.cart.map(cartItem => {
       let newAmount = cartItem.amount; 
@@ -100,23 +100,21 @@ export const CartProvider = ({children}) => {
   }
   // total amount and total items
   const calcTotals = () => {
-    const totalItems = state.cart.reduce((total, item) => {
-      total = total + item.amount
-      return total
-    }, 0)
-    const totalAmount = state.cart.reduce((total, item) => {
-      const totalAmountForItem = item.price * item.amount
-      // console.log(totalAmountForItem);
-      total = total + totalAmountForItem
-      // console.log(total);
+    const {totalItems, totalAmount} = state.cart.reduce((total, cartItem) => {
+      const {amount, price} = cartItem; 
+      total.totalItems += amount; 
+      total.totalAmount += price * amount; 
       return total 
-    }, 0)
+    }, {
+      totalItems: 0, 
+      totalAmount: 0, 
+    })
     dispatch({type:COUNT_CART_TOTALS, payload: {totalItems, totalAmount}})
   }
   
-  
-  
+
   useEffect(() => {
+    // calculating the total number of items in the cart and total price of all items
     calcTotals()
   // persisting the cart content in local storage 
   localStorage.setItem('cart', JSON.stringify(state.cart));
