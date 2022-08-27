@@ -138,6 +138,7 @@ export const FilterProvider = ({children}) => {
     }
     if (name === 'shipping') {
       value = e.target.checked
+      console.log(e.target.indeterminate);
     }
     dispatch({
       type: UPDATE_FILTERS,

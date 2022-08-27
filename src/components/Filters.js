@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import styled from 'styled-components'
 import { useFilterContext } from '../context/filter_context'
 import { getUniqueValues, formatPrice } from '../utils/helpers'
@@ -52,8 +52,7 @@ const Filters = () => {
                     onClick={updateFilters}
                     name='category'
                     type='button'
-                    className={`${category === c.toLowerCase() && 'active'}
-                  `}
+                    className={`${category === c.toLowerCase() && 'active'}`}
                   >
                     {c}
                   </button>
@@ -131,10 +130,10 @@ const Filters = () => {
           </div>
           {/* End of Price */}
           {/* free shipping */}
-          <div className="form-control shipping">
-            <label htmlFor="shipping">free shipping</label>
+          <div className='form-control shipping'>
+            <label htmlFor='shipping'>free shipping</label>
             <input
-              type="checkbox"
+              type='checkbox'
               name='shipping'
               id='shipping'
               onChange={updateFilters}
@@ -143,11 +142,7 @@ const Filters = () => {
           </div>
           {/* End of Free Shipping */}
         </form>
-        <button
-          type='button'
-          className='clear-btn'
-          onClick={clearFilters}
-        >
+        <button type='button' className='clear-btn' onClick={clearFilters}>
           clear filters
         </button>
       </div>
