@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {Navbar, Sidebar, Footer} from './components'; 
 import {
@@ -12,8 +12,22 @@ import {
   PrivateRoute,
   AuthWrapper,
 } from './pages'; 
+import { getProducts } from './store/features/products/productsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-function App() {
+
+function App () {
+  const dispatch = useDispatch()
+
+  
+
+    
+  useEffect(() => {
+    dispatch(getProducts()); 
+  }, [])
+  
+  
+  
   return (
     <AuthWrapper>
       <Router>

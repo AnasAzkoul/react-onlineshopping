@@ -1,18 +1,18 @@
 import React from 'react'
-import { useProductsContext } from '../context/products_context'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Error from './Error'
 import Loading from './Loading'
-import Product from './Product'
+import Product from './Product'; 
+// RTK
+import { useSelector } from 'react-redux'
 
 const FeaturedProducts = () => {
-  const {
-    featured_products:featured,
+  const { featured_products:featured,
     products_loading: loading,
     products_error: error
-  } = useProductsContext(); 
-  
+  } = useSelector((store) => store.products)
+
   if (loading) {
     return <Loading />
   }
