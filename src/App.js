@@ -12,7 +12,7 @@ import {
   PrivateRoute,
   AuthWrapper,
 } from './pages'; 
-import { getProducts } from './store/features/products/productsSlice';
+import { getProducts } from './store/productsThunk'
 import { useDispatch, useSelector } from 'react-redux';
 
 

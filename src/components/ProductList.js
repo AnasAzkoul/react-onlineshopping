@@ -5,7 +5,7 @@ import ListView from './ListView'
 import { useSelector } from 'react-redux'
 
 const ProductList = () => {
-  const {filtered_products: products} = useSelector((store) => store.products); 
+  const {filtered_products: products} = useSelector((store) => store.filters); 
   
   const {
     grid_view

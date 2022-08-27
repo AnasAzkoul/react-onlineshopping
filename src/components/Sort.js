@@ -1,19 +1,31 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useFilterContext } from '../context/filter_context'
 import { BsFillGridFill, BsList } from 'react-icons/bs'
-import styled from 'styled-components'
+import styled from 'styled-components'; 
+// RTK
+import {updateSort, SortProducts} from '../store/features/filters/filtersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 const Sort = () => {
+  const dispatch = useDispatch(); 
+  const {sort} = useSelector((store) => store.filters)
   const {
     filtered_products: products,
     grid_view,
     setGridView,
     setListView,
-    updateSort,
-    sort,
   } = useFilterContext(); 
+  
+  useEffect(() => {
+    dispatch(SortProducts())
+  }, [sort])
+  
+  const handleSortChange = (e) => {
+    const value = e.target.value
+    dispatch(updateSort(value))
+  }
   
   return (
     <Wrapper>
@@ -42,7 +54,7 @@ const Sort = () => {
           id='sort'
           className='sort-input'
           value={sort}
-          onChange={updateSort}
+          onChange={handleSortChange}
         >
           <option value='price-lowest'>price lowest</option>
           <option value='price-highest'>price highest</option>

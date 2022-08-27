@@ -149,10 +149,7 @@ export const FilterProvider = ({children}) => {
   const clearFilters = () => {
     dispatch({type: CLEAR_FILTERS})
   }; 
-  
-  
-
-  
+    
   const value = {
     ...state, 
     setGridView, 
