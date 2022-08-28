@@ -2,10 +2,15 @@ import React, {useRef} from 'react'
 import styled from 'styled-components'
 import { useFilterContext } from '../context/filter_context'
 import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck } from 'react-icons/fa'
+import {FaCheck} from 'react-icons/fa'; 
+// RTK
+import {useSelector, useDispatch} from 'react-redux';
+import {updateFilters, clearFilters} from '../store/features/filters/filtersSlice'; 
 
 const Filters = () => {
+  const dispatch = useDispatch(); 
   const {
+    all_products,
     filters: {
       text,
       category,
@@ -14,12 +19,12 @@ const Filters = () => {
       min_price,
       max_price,
       price,
-      shipping
+      shipping,
     },
-    updateFilters,
-    clearFilters,
-    all_products
-  } = useFilterContext(); 
+  } = useSelector((store) => store.filters);
+  
+
+
   
   const categories = getUniqueValues(all_products, 'category'); 
   const companies = getUniqueValues(all_products, 'company'); 
@@ -37,7 +42,7 @@ const Filters = () => {
               placeholder='search'
               className='search-input'
               value={text}
-              onChange={updateFilters}
+              onChange={(e) => dispatch(updateFilters({e}))}
             />
           </div>
           {/* end of search input */}
@@ -49,10 +54,10 @@ const Filters = () => {
                 return (
                   <button
                     key={index}
-                    onClick={updateFilters}
+                    onClick={(e) => dispatch(updateFilters({e}))}
                     name='category'
                     type='button'
-                    className={`${category === c.toLowerCase() && 'active'}`}
+                    className={`${category.toLowerCase() === c.toLowerCase() ?'active' : null}`}
                   >
                     {c}
                   </button>
@@ -69,7 +74,7 @@ const Filters = () => {
               id='company'
               value={company}
               className='company'
-              onChange={updateFilters}
+              onChange={(e) => dispatch(updateFilters({e}))}
             >
               {companies.map((comp, index) => {
                 return (
@@ -91,7 +96,7 @@ const Filters = () => {
                     <button
                       key={index}
                       name='color'
-                      onClick={updateFilters}
+                      onClick={(e) => dispatch(updateFilters({ e }))}
                       data-color='all'
                       className={`all-btn ${color === 'all' && 'active'}`}
                     >
@@ -106,7 +111,7 @@ const Filters = () => {
                     style={{ backgroundColor: c }}
                     className={`color-btn ${color === c && 'active'}`}
                     data-color={c}
-                    onClick={updateFilters}
+                    onClick={(e) => dispatch(updateFilters({e}))}
                   >
                     {color === c && <FaCheck />}
                   </button>
@@ -125,7 +130,7 @@ const Filters = () => {
               min={min_price}
               max={max_price}
               value={price}
-              onChange={updateFilters}
+              onChange={(e) => dispatch(updateFilters({e}))}
             />
           </div>
           {/* End of Price */}
@@ -136,13 +141,17 @@ const Filters = () => {
               type='checkbox'
               name='shipping'
               id='shipping'
-              onChange={updateFilters}
+              onChange={(e) => dispatch(updateFilters({e}))}
               checked={shipping}
             />
           </div>
           {/* End of Free Shipping */}
         </form>
-        <button type='button' className='clear-btn' onClick={clearFilters}>
+        <button
+          type='button'
+          className='clear-btn'
+          onClick={() => dispatch(clearFilters())}
+        >
           clear filters
         </button>
       </div>

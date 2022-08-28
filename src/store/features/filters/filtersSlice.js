@@ -54,6 +54,37 @@ const filtersSlice = createSlice({
       }
       
       state.filtered_products = tempProducts; 
+    }, 
+    updateFilters: (state, {payload}) => {
+      const name = payload.e.target.name
+      let value = null
+      if (name === 'text'
+        || name === 'company'
+        || name === 'price'
+      ) {
+        value = payload.e.target.value;
+      }
+      if (name === 'category') {
+        value = payload.e.target.innerText;         
+      }
+      if (name === 'color') {
+        value = payload.e.target.dataset.color
+      }
+      if (name === 'shipping') {
+        value = payload.e.target.checked 
+      }
+      state.filters[name] = value
+    }, 
+    clearFilters: (state) => {
+      state.filters = {
+        ...state.filters,
+        text: '',
+        company: 'all',
+        category: 'all',
+        color: 'all',
+        price: state.filters.max_price, 
+        shipping: false
+      };
     }
   },
   extraReducers: {
@@ -61,10 +92,13 @@ const filtersSlice = createSlice({
       state.all_products_loading = true
     }, 
     [getProducts.fulfilled]: (state, {payload}) => {
-      state.all_products_loading = false; 
-      state.filtered_products = payload; 
+      state.all_products_loading = false;
       state.all_products = payload; 
+      state.filtered_products = payload; 
       state.featured_products = payload.filter(item => item.featured === true); 
+      const maxPrice = payload.map(item => item.price)
+      state.filters.max_price = Math.max(...maxPrice); 
+      state.filters.price = Math.max(...maxPrice);
     }, 
     [getProducts.rejected]: (state) => {
       state.all_products_loading = false; 
@@ -73,6 +107,11 @@ const filtersSlice = createSlice({
   }
 });
 
-export const {updateSort, SortProducts} = filtersSlice.actions; 
+export const {
+  updateSort,
+  SortProducts, 
+  updateFilters, 
+  clearFilters, 
+} = filtersSlice.actions; 
 
 export default filtersSlice.reducer

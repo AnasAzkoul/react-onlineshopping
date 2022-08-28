@@ -8,10 +8,11 @@ import Product from './Product';
 import { useSelector } from 'react-redux'
 
 const FeaturedProducts = () => {
-  const { featured_products:featured,
-    products_loading: loading,
-    products_error: error
-  } = useSelector((store) => store.products)
+  const {
+    featured_products: featured,
+    all_products_loading: loading,
+    all_products_error: error,
+  } = useSelector((store) => store.filters);
 
   if (loading) {
     return <Loading />
