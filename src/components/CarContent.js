@@ -4,10 +4,15 @@ import { useCartContext } from '../context/cart_context'
 import { Link } from 'react-router-dom'
 import CartColumns from './CartColumns'
 import CartItem from './CartItem'
-import CartTotals from './CartTotals'
+import CartTotals from './CartTotals'; 
+// RTK
+import {useSelector, useDispatch} from 'react-redux'; 
+import { clearCart } from '../store/features/cart/cartSlice'
 
 const CartContent = () => {
-  const {cart, clearCart} = useCartContext(); 
+  const {cart} = useSelector((store) => store.cart); 
+  const dispatch = useDispatch(); 
+
   return (
     <Wrapper className='section section-center'>
       <CartColumns />
@@ -27,7 +32,7 @@ const CartContent = () => {
         <button
           type='button'
           className='link-btn clear-btn'
-          onClick={clearCart}>
+          onClick={() => dispatch(clearCart())}>
           clear cart
           </button>
       </div>
