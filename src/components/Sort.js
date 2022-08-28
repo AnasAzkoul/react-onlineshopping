@@ -10,9 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Sort = () => {
   const dispatch = useDispatch(); 
-  const {sort} = useSelector((store) => store.filters)
+  const {sort, filtered_products: products} = useSelector((store) => store.filters)
   const {
-    filtered_products: products,
     grid_view,
     setGridView,
     setListView,

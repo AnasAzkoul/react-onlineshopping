@@ -1,11 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useFilterContext } from '../context/filter_context'
 import GridView from './GridView'
 import ListView from './ListView'
-import { useSelector } from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux';
+import { sortProducts, SortProducts } from '../store/features/filters/filtersSlice';
 
 const ProductList = () => {
-  const {filtered_products: products} = useSelector((store) => store.filters); 
+  const dispatch = useDispatch()
+  const {
+    filtered_products: products,
+    all_products,
+    sort,
+    filters
+  } = useSelector((store) => store.filters); 
+  
+  useEffect(() => {
+    dispatch(sortProducts())
+  }, [all_products, sort, filters])
   
   const {
     grid_view
