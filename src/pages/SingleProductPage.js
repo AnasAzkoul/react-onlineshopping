@@ -12,21 +12,24 @@ import {
   PageHero,
 } from '../components'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'; 
+// RTK
+import {getSingleProduct} from '../store/productsThunk'; 
+import {useDispatch, useSelector} from 'react-redux'; 
 
 const SingleProductPage = () => {
+  const dispatch = useDispatch(); 
   const {
     single_product_loading: loading,
-    single_product_error: error,
+    single_product_error: error, 
     single_product: product, 
-    fetchSingleProduct, 
-  } = useProductsContext(); 
+  } = useSelector((store) => store.products); 
   
   const {id} = useParams(); 
   const navigate = useNavigate()
   
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
+    dispatch(getSingleProduct(id))
     // eslint-disable-next-line
   }, [id])
   

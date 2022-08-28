@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {getSingleProduct} from '../../productsThunk'; 
 
 
 const initialState = {
@@ -20,6 +21,19 @@ const productsSlice = createSlice({
       state.isSidebarOpen = false;
     },
   },
+  extraReducers: {
+    [getSingleProduct.pending]: (state) => {
+      state.single_product_loading = true
+    }, 
+    [getSingleProduct.fulfilled]: (state, {payload}) => {
+      state.single_product_loading = false; 
+      state.single_product = payload;       
+    }, 
+    [getSingleProduct.rejected]: (state) => {
+      state.single_product_loading = false; 
+      state.single_product_error = true; 
+    }
+  }
 });
 
 
