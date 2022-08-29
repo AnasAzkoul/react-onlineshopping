@@ -107,7 +107,7 @@ const filtersSlice = createSlice({
           item.name.toLowerCase().includes(text)
         ); 
       }
-      if (category !== 'all') {
+      if (category.toLowerCase() !== 'all') {
         tempProducts = tempProducts.filter(item =>
           item.category.toLowerCase() === category.toLowerCase()
         ); 

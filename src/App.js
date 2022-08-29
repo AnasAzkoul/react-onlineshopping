@@ -1,3 +1,6 @@
+// Todo: fix the issue with cart total number 
+// todo: fix the issue with the link from featured products on the homepage§
+
 import React, {useEffect} from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {Navbar, Sidebar, Footer} from './components'; 
