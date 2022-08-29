@@ -6,7 +6,10 @@ import { ProductsProvider } from './context/products_context'
 import { FilterProvider } from './context/filter_context'
 import { CartProvider } from './context/cart_context'
 import { UserProvider } from './context/user_context'
-import { Auth0Provider } from '@auth0/auth0-react'
+import {Auth0Provider} from '@auth0/auth0-react'
+// RTK
+import {store} from './Store/store'; 
+import {Provider} from 'react-redux'; 
 
 ReactDOM.render(
   <Auth0Provider
@@ -19,7 +22,9 @@ ReactDOM.render(
       <ProductsProvider>
         <FilterProvider>
           <CartProvider>
-            <App />
+            <Provider store={store}>
+              <App />
+            </Provider>
           </CartProvider>
         </FilterProvider>
       </ProductsProvider>

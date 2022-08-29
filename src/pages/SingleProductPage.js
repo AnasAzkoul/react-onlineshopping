@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useProductsContext } from '../context/products_context'
-import { single_product_url as url } from '../utils/constants'
+// import { useProductsContext } from '../context/products_context'
+// import { single_product_url as url } from '../utils/constants'
 import { formatPrice } from '../utils/helpers'
 import {
   Loading,
@@ -12,21 +12,24 @@ import {
   PageHero,
 } from '../components'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+// RTK
+import {getSingleProduct} from '../Store/features/ProductsSlice/ProductsSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SingleProductPage = () => {
+  const dispatch = useDispatch(); 
   const {
     single_product_loading: loading,
     single_product_error: error,
     single_product: product, 
-    fetchSingleProduct, 
-  } = useProductsContext(); 
+  } = useSelector(store => store.products); 
   
   const {id} = useParams(); 
   const navigate = useNavigate()
   
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
+    dispatch(getSingleProduct(id)); 
     // eslint-disable-next-line
   }, [id])
   

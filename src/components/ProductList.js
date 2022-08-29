@@ -1,12 +1,14 @@
 import React from 'react'
-import { useFilterContext } from '../context/filter_context'
+// import { useFilterContext } from '../context/filter_context'
 import GridView from './GridView'
 import ListView from './ListView'
+// RTK
+import { useSelector } from 'react-redux'
 
 const ProductList = () => {
-  const {
-    filtered_products: products, grid_view
-  } = useFilterContext(); 
+  const { filtered_products: products, grid_view } = useSelector(
+    (store) => store.filters
+  );
   
   if (products.length < 1) {
     return <h5 style={{textTransform: 'none'}}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {Navbar, Sidebar, Footer} from './components'; 
 import {
@@ -12,8 +12,40 @@ import {
   PrivateRoute,
   AuthWrapper,
 } from './pages'; 
+// RTK
+import {useDispatch, useSelector} from 'react-redux'
+import {getProducts} from './Store/features/ProductsSlice/ProductsSlice'; 
+import {loadProducts, sortProducts, filterProducts} from './Store/features/filters/filtersSlice'; 
 
-function App() {
+function App () {
+  const dispatch = useDispatch(); 
+  const {products} = useSelector((store) => store.products)
+  const {
+    filtered_products,
+    all_products,
+    sort, 
+    filters
+  } = useSelector(store => store.filters)
+  
+  // console.log(free_shipping);
+  
+  useEffect(() => {
+    dispatch(getProducts())
+  }, [])
+  
+  useEffect(() => {
+    dispatch(loadProducts({products})); 
+  }, [products])
+  
+  useEffect(() => {
+    dispatch(sortProducts()); 
+  }, [sort])
+  
+  useEffect(() => {
+    dispatch(filterProducts());
+  }, [filters, products]);
+  
+  
   return (
     <AuthWrapper>
       <Router>

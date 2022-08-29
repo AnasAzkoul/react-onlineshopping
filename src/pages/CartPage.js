@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { useCartContext } from '../context/cart_context'
 import { Link } from 'react-router-dom'
-import { CartContent, PageHero } from '../components'
+import {CartContent, PageHero} from '../components'
+// RTK 
+import { useSelector } from 'react-redux'
 
 const CartPage = () => {
-  const {cart} = useCartContext(); 
+  const {cart} = useSelector(store => store.cart); 
   
   if (cart.length < 1) {
     return <Wrapper className='page-100'>

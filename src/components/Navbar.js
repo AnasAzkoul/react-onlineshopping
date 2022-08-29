@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom'
 import { links } from '../utils/constants'
 import CartButtons from './CartButtons'
 import { useProductsContext } from '../context/products_context'
-import { useUserContext } from '../context/user_context'
+import {useUserContext} from '../context/user_context'
+// RTK
+import {openSidebar} from '../Store/features/ProductsSlice/ProductsSlice'; 
+import {useDispatch, useSelector} from 'react-redux'; 
 
 const Nav = () => {
-  const {openSidebar} = useProductsContext(); 
+  const dispatch = useDispatch()
   const {myUser} = useUserContext(); 
  
   return (
@@ -19,7 +22,11 @@ const Nav = () => {
           <Link to='/'>
             <img src={logo} alt='logo' />
           </Link>
-          <button type='button' className='nav-toggle' onClick={openSidebar}>
+          <button
+            type='button'
+            className='nav-toggle'
+            onClick={() => dispatch(openSidebar())}
+          >
             <FaBars />
           </button>
         </div>

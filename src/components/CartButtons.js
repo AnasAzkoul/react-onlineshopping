@@ -4,9 +4,13 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useProductsContext } from '../context/products_context'
 import { useCartContext } from '../context/cart_context'
-import { useUserContext } from '../context/user_context'
+import {useUserContext} from '../context/user_context'
+// RTK
+import { useSelector, useDispatch } from 'react-redux';
+import { closeSidebar } from '../Store/features/ProductsSlice/ProductsSlice';
 
 const CartButtons = () => {
+  const dispatch = useDispatch(); 
   const {closeSidebar} = useProductsContext(); 
   const {total_items, clearCart} = useCartContext(); 
   const {
@@ -17,7 +21,11 @@ const CartButtons = () => {
   
   return (
     <Wrapper className='cart-btn-wrapper'>
-      <Link to='/cart' className='cart-btn' onClick={closeSidebar}>
+      <Link
+        to='/cart'
+        className='cart-btn'
+        onClick={() => dispatch(closeSidebar())}
+      >
         Cart
         <span className='cart-container'>
           <FaShoppingCart />
@@ -29,20 +37,16 @@ const CartButtons = () => {
           type='button'
           className='auth-btn'
           onClick={() => {
-            clearCart(); 
+            clearCart();
             logout({
               returnTo: window.location.origin,
-            })}
-          }
+            });
+          }}
         >
           Logout <FaUserMinus />
         </button>
       ) : (
-          <button
-            type='button'
-            className='auth-btn'
-            onClick={loginWithRedirect}
-          >
+        <button type='button' className='auth-btn' onClick={loginWithRedirect}>
           Login <FaUserPlus />
         </button>
       )}

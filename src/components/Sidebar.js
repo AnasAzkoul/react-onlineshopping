@@ -6,10 +6,15 @@ import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constants'
 import styled from 'styled-components'
 import CartButtons from './CartButtons'
-import { useUserContext } from '../context/user_context'
+import {useUserContext} from '../context/user_context'
+// RTK
+import {useSelector, useDispatch} from 'react-redux'
+import { closeSidebar } from '../Store/features/ProductsSlice/ProductsSlice'
 
 const Sidebar = () => {
-  const {closeSidebar, isSidebarOpen} = useProductsContext(); 
+  // const {closeSidebar, isSidebarOpen} = useProductsContext(); 
+  const {isSidebarOpen} = useSelector(store => store.products)
+  const dispatch = useDispatch(); 
   const {myUser} = useUserContext(); 
   
   
@@ -20,7 +25,11 @@ const Sidebar = () => {
       >
         <div className='sidebar-header'>
           <img src={logo} alt='logo' className='logo' />
-          <button className='close-btn' type='button' onClick={closeSidebar}>
+          <button
+            className='close-btn'
+            type='button'
+            onClick={() => dispatch(closeSidebar())}
+          >
             <FaTimes />
           </button>
         </div>
@@ -28,20 +37,20 @@ const Sidebar = () => {
           {links.map((link) => {
             const { id, url, text } = link;
             return (
-              <li key={id} onClick={closeSidebar}>
+              <li key={id} onClick={() => dispatch(closeSidebar())}>
                 <Link to={url}>{text}</Link>
               </li>
             );
           })}
           {myUser && (
             <li>
-              <Link to='/checkout' onClick={closeSidebar}>
+              <Link to='/checkout' onClick={() => dispatch(closeSidebar())}>
                 Checkout
               </Link>
             </li>
           )}
         </ul>
-        <CartButtons closeSidebar={closeSidebar} />
+        <CartButtons/>
       </aside>
     </SidebarContainer>
   );

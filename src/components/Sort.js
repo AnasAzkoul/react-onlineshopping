@@ -1,19 +1,19 @@
-import React from 'react'
-import { useFilterContext } from '../context/filter_context'
+import React, {useEffect} from 'react'
+// import { useFilterContext } from '../context/filter_context'
 import { BsFillGridFill, BsList } from 'react-icons/bs'
 import styled from 'styled-components'
-
+// RTK
+import {updateSort, setGridView, setListView} from '../Store/features/filters/filtersSlice'; 
+import {useDispatch, useSelector} from 'react-redux'; 
 
 
 const Sort = () => {
+  const dispatch = useDispatch(); 
   const {
-    filtered_products: products,
-    grid_view,
-    setGridView,
-    setListView,
-    updateSort,
     sort,
-  } = useFilterContext(); 
+    grid_view,
+    filtered_products: products,
+  } = useSelector((store) => store.filters);
   
   return (
     <Wrapper>
@@ -21,14 +21,14 @@ const Sort = () => {
         <button
           type='button'
           className={`${grid_view && 'active'}`}
-          onClick={setGridView}
+          onClick={() => dispatch(setGridView())}
         >
           <BsFillGridFill />
         </button>
         <button
           type='button'
           className={`${!grid_view && 'active'}`}
-          onClick={setListView}
+          onClick={() => dispatch(setListView())}
         >
           <BsList />
         </button>
@@ -42,7 +42,10 @@ const Sort = () => {
           id='sort'
           className='sort-input'
           value={sort}
-          onChange={updateSort}
+          onChange={e => {
+            const value = e.target.value;
+            return dispatch(updateSort({value}))
+          }}
         >
           <option value='price-lowest'>price lowest</option>
           <option value='price-highest'>price highest</option>
