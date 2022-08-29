@@ -7,12 +7,13 @@ import { useCartContext } from '../context/cart_context'
 import {useUserContext} from '../context/user_context'
 // RTK
 import { useSelector, useDispatch } from 'react-redux';
-import { closeSidebar } from '../Store/features/ProductsSlice/ProductsSlice';
+import {closeSidebar} from '../Store/features/ProductsSlice/ProductsSlice';
+import {clearCart} from '../Store/features/cart/cartSlice'
 
 const CartButtons = () => {
   const dispatch = useDispatch(); 
-  const {closeSidebar} = useProductsContext(); 
-  const {total_items, clearCart} = useCartContext(); 
+
+  const { total_number} = useSelector((store) => store.cart); 
   const {
     loginWithRedirect, 
     myUser, 
@@ -29,7 +30,7 @@ const CartButtons = () => {
         Cart
         <span className='cart-container'>
           <FaShoppingCart />
-          <span className='cart-value'>{total_items}</span>
+          <span className='cart-value'>{total_number}</span>
         </span>
       </Link>
       {myUser ? (
@@ -37,7 +38,7 @@ const CartButtons = () => {
           type='button'
           className='auth-btn'
           onClick={() => {
-            clearCart();
+            dispatch(clearCart());
             logout({
               returnTo: window.location.origin,
             });

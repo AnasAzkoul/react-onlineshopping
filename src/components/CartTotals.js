@@ -1,12 +1,23 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import { useCartContext } from '../context/cart_context'
 import { useUserContext } from '../context/user_context'
 import { formatPrice } from '../utils/helpers'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+// RTK
+import {calculateTotals} from '../Store/features/cart/cartSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const CartTotals = () => {
-  const {shipping_fee, total_amount} = useCartContext(); 
+  const dispatch = useDispatch(); 
+
+  const {shipping_fee, total_amount, cart} = useSelector(store => store.cart); 
+  
+  useEffect(() => {
+    dispatch(calculateTotals())
+  }, [cart])
+  
+  
   const {myUser, loginWithRedirect} = useUserContext(); 
   return <Wrapper>
     <div>
