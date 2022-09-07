@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 import styled from 'styled-components'
 import { loadStripe } from '@stripe/stripe-js'
 import {
@@ -8,16 +8,19 @@ import {
   useElements,
 } from '@stripe/react-stripe-js'
 import axios from 'axios'
-import { useCartContext } from '../context/cart_context'
-import { useUserContext } from '../context/user_context'
 import { formatPrice } from '../utils/helpers'
 import {useNavigate} from 'react-router-dom'
+// RTK
+import {useSelector, useDispatch} from 'react-redux'; 
+import {clearCart} from '../Store/features/cart/cartSlice'; 
 
 const promise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = () => {
-  const {cart, total_amount, shipping_fee, clearCart} = useCartContext()
-  const {myUser} = useUserContext()
+  const dispatch = useDispatch(); 
+  const {myUser} = useSelector(store => store.user); 
+  const {cart, total_amount, shipping_fee} = useSelector(store => store.cart); 
+  
   const navigate = useNavigate();
   // stripe stuff
   const [succeeded, setSucceeded] = useState(false); 
@@ -63,8 +66,6 @@ const CheckoutForm = () => {
     // eslint-disable-next-line
   }, [])
   
-
-  
   const handleChange = async (event) => {
     setDisabled(event.empty); 
     setError(event.error ? event.error.message : '')
@@ -86,7 +87,7 @@ const CheckoutForm = () => {
       setProcessing(false)
       setSucceeded(true)      
       setTimeout(() => {
-        clearCart(); 
+        dispatch(clearCart()); 
         navigate('/')
       }, 3000)
     }

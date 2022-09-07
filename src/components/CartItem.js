@@ -3,13 +3,12 @@ import styled from 'styled-components'
 import { formatPrice } from '../utils/helpers'
 import AmountButtons from './AmountButtons'
 import { FaTrash } from 'react-icons/fa'
-import {useCartContext} from '../context/cart_context' 
 // RTK
 import {
   removeProductFromCart,
   toggleAmount,
 } from '../Store/features/cart/cartSlice'; 
-import {useDispatch, useSelector} from 'react-redux'; 
+import {useDispatch} from 'react-redux'; 
 
 const CartItem = ({name, id, image, color, price, amount}) => {
   const dispatch = useDispatch(); 

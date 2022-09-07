@@ -1,24 +1,23 @@
-import React from 'react'
-import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-import { useProductsContext } from '../context/products_context'
-import { useCartContext } from '../context/cart_context'
-import {useUserContext} from '../context/user_context'
+import React, {useEffect} from 'react'; 
+import {FaShoppingCart, FaUserMinus, FaUserPlus} from 'react-icons/fa'; 
+import {Link} from 'react-router-dom';
+import styled from 'styled-components'; 
+import { useAuth0 } from '@auth0/auth0-react'
 // RTK
 import { useSelector, useDispatch } from 'react-redux';
 import {closeSidebar} from '../Store/features/ProductsSlice/ProductsSlice';
-import {clearCart} from '../Store/features/cart/cartSlice'
+import { clearCart, calculateTotals } from '../Store/features/cart/cartSlice';
 
 const CartButtons = () => {
   const dispatch = useDispatch(); 
 
-  const { total_number} = useSelector((store) => store.cart); 
-  const {
-    loginWithRedirect, 
-    myUser, 
-    logout, 
-  } = useUserContext(); 
+  const { total_number, cart} = useSelector((store) => store.cart); 
+  const {myUser} = useSelector(state => state.user)
+  const {loginWithRedirect, logout} = useAuth0(); 
+  
+  useEffect(() => {
+    dispatch(calculateTotals());
+  }, [cart, dispatch]);
   
   return (
     <Wrapper className='cart-btn-wrapper'>

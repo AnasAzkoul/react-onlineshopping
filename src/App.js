@@ -1,6 +1,3 @@
-// Todo: fix the issue with cart total number 
-// todo: fix the issue with the link from featured products on the homepage§
-
 import React, {useEffect} from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {Navbar, Sidebar, Footer} from './components'; 
@@ -15,10 +12,12 @@ import {
   PrivateRoute,
   AuthWrapper,
 } from './pages'; 
+import { useAuth0 } from '@auth0/auth0-react';
 // RTK
 import {useDispatch, useSelector} from 'react-redux'
 import {getProducts} from './Store/features/ProductsSlice/ProductsSlice'; 
 import {loadProducts, sortProducts, filterProducts} from './Store/features/filters/filtersSlice'; 
+import {setUser} from './Store/features/User/userSlice'; 
 
 function App () {
   const dispatch = useDispatch(); 
@@ -30,23 +29,27 @@ function App () {
     filters
   } = useSelector(store => store.filters)
   
-  // console.log(free_shipping);
+  const {user} = useAuth0(); 
+  
+  useEffect(() => {
+    dispatch(setUser(user))
+  }, [dispatch, user])
   
   useEffect(() => {
     dispatch(getProducts())
-  }, [])
+  }, [dispatch])
   
   useEffect(() => {
     dispatch(loadProducts({products})); 
-  }, [products])
+  }, [products, dispatch])
   
   useEffect(() => {
     dispatch(sortProducts()); 
-  }, [sort])
+  }, [sort, dispatch])
   
   useEffect(() => {
     dispatch(filterProducts());
-  }, [filters, products]);
+  }, [filters, products, dispatch]);
   
   
   return (

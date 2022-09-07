@@ -1,7 +1,8 @@
 import React,{useEffect} from 'react'
 import styled from 'styled-components'
-import { useCartContext } from '../context/cart_context'
-import { useUserContext } from '../context/user_context'
+// import { useCartContext } from '../context/cart_context'
+// import {useUserContext} from '../context/user_context'
+import { useAuth0 } from '@auth0/auth0-react';
 import { formatPrice } from '../utils/helpers'
 import {Link} from 'react-router-dom'
 // RTK
@@ -10,15 +11,14 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const CartTotals = () => {
   const dispatch = useDispatch(); 
-
+  const {loginWithRedirect} = useAuth0(); 
   const {shipping_fee, total_amount, cart} = useSelector(store => store.cart); 
+  const {myUser} = useSelector(store => store.user); 
   
   useEffect(() => {
     dispatch(calculateTotals())
-  }, [cart])
+  }, [cart, dispatch])
   
-  
-  const {myUser, loginWithRedirect} = useUserContext(); 
   return <Wrapper>
     <div>
       <article>

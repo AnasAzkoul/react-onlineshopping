@@ -5,15 +5,13 @@ import { FaBars } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { links } from '../utils/constants'
 import CartButtons from './CartButtons'
-import { useProductsContext } from '../context/products_context'
-import {useUserContext} from '../context/user_context'
 // RTK
 import {openSidebar} from '../Store/features/ProductsSlice/ProductsSlice'; 
 import {useDispatch, useSelector} from 'react-redux'; 
 
 const Nav = () => {
   const dispatch = useDispatch()
-  const {myUser} = useUserContext(); 
+  const {myUser} = useSelector(store => store.user)
  
   return (
     <NavContainer>
